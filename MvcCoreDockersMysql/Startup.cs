@@ -28,9 +28,16 @@ namespace MvcCoreDockersMysql
         {
             string cadenasql =
                 this.Configuration.GetConnectionString("hospitalsqlserver");
+            string cadenamysql =
+                this.Configuration.GetConnectionString("hospitalmysql");
             services.AddTransient<RepositoryDepartamentos>();
-            services.AddDbContext<DepartamentosContext>
-                (options => options.UseSqlServer(cadenasql));
+            //MYSQL
+            services.AddDbContextPool<DepartamentosContext>
+                (options => options.UseMySql(cadenamysql
+                , ServerVersion.AutoDetect(cadenamysql)));
+            //SQL SERVER
+            //services.AddDbContext<DepartamentosContext>
+            //    (options => options.UseSqlServer(cadenasql));
             services.AddControllersWithViews();
         }
 
